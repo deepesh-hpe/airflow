@@ -56,7 +56,7 @@ default_args = {
 # [START instantiate_dag]
 
 dag = DAG(
-    'spark_pi',
+    'spark_auto_pi',
     default_args=default_args,
     schedule_interval=None,
     tags=['example', 'spark']
