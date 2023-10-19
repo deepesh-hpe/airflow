@@ -28,7 +28,7 @@ spec:
     #spark.eventLog.dir: "maprfs:///apps/spark/sampletenant"
     spark.eventLog.dir: maprfs:///apps/spark/deepesh
     spark.eventLog.enabled: "false"
-    spark.mapr.user.secret: hpe-autotix-generated-secret-flvkkp
+    #spark.mapr.user.secret: hpe-autotix-generated-secret-flvkkp
     spark.mapr.user.secret.autogen: "true"
   type: Scala
   sparkVersion: 3.1.2
