@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-wordcount-secure
+  name: spark-wordcount-secure-test
   namespace: deepesh
 spec:
   sparkConf:
