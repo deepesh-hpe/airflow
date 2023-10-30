@@ -10,7 +10,7 @@ spec:
     spark.mapr.user.secret: spark-user-secret
     # Note: You do not need to specify a spark.eventLog.dir
     #       it will be auto-generated with the pattern "maprfs:///apps/spark/<namespace>"
-   spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
+    spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
   type: Java
   sparkVersion: 3.3.1
   mode: cluster
