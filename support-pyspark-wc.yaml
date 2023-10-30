@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-wordcount-secure-test5
+  generateName: spark-wordcount-secure-
   namespace: deepesh
 spec:
   sparkConf:
@@ -12,9 +12,9 @@ spec:
     #       it will be auto-generated with the pattern "maprfs:///apps/spark/<namespace>"
     spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
   type: Java
-  sparkVersion: 3.3.1
-  mode: client 
-  image: gcr.io/mapr-252711/spark-3.3.1:202301161621R
+  sparkVersion: 3.1.2
+  mode: cluster 
+  image: gcr.io/mapr-252711/spark-3.1.2:202202141308P150
   imagePullPolicy: Always
   mainClass: org.apache.spark.examples.JavaWordCount
   mainApplicationFile: "local:////opt/mapr/spark/spark-3.2.0/examples/jars/spark-examples_2.12-3.2.0.0-eep-810.jar"
