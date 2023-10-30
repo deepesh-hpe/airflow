@@ -11,7 +11,7 @@ spec:
     # Note: You do not need to specify a spark.eventLog.dir
     #       it will be auto-generated with the pattern "maprfs:///apps/spark/<namespace>"
     spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
-    spark.sql.warehouse.dir: "maprfs:///tmp/output.txt"
+    #spark.sql.warehouse.dir: "maprfs:///tmp/output.txt"
   type: Java
   sparkVersion: 3.1.2
   mode: cluster 
