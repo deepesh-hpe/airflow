@@ -76,7 +76,7 @@ submit = SparkKubernetesOperator(
 sensor = SparkKubernetesSensor(
     task_id='spark_wc_monitor',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
-    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_wc_submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
     dag=dag,
     api_group="sparkoperator.hpe.com",
