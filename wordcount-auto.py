@@ -56,27 +56,27 @@ default_args = {
 # [START instantiate_dag]
 
 dag = DAG(
-    'spark_wc',
+    'spark_wc_auto',
     default_args=default_args,
     schedule_interval=None,
     tags=['example', 'spark']
 )
 
 submit = SparkKubernetesOperator(
-    task_id='spark_wc_submit',
+    task_id='spark_wc_auto_submit',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
-    application_file="support-pyspark-wc.yaml",
+    application_file="wordcount-auto.yaml",
     kubernetes_conn_id="kubernetes_in_cluster",
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    enable_impersonation_from_ldap_user=False
+    enable_impersonation_from_ldap_user=True
 )
 
 sensor = SparkKubernetesSensor(
     task_id='spark_wc_monitor',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
-    application_name="{{ task_instance.xcom_pull(task_ids='spark_wc_submit')['metadata']['name'] }}",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_wc_auto_submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
     dag=dag,
     api_group="sparkoperator.hpe.com",
