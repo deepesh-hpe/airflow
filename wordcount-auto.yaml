@@ -1,13 +1,14 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  generateName: spark-pi-secure-
+  generateName: spark-wc-auto-
   namespace: deepesh
 spec:
   sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
     #       you do not need to specify a spark.mapr.user.secret
-    spark.mapr.user.secret: spark-user-secret
+    #spark.mapr.user.secret: spark-user-secret
+    spark.mapr.user.secret.autogen: "true"
     # Note: You do not need to specify a spark.eventLog.dir
     #       it will be auto-generated with the pattern "maprfs:///apps/spark/<namespace>"
     spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
