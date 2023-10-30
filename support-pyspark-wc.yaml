@@ -38,7 +38,7 @@ spec:
   restartPolicy:
     type: Never
   arguments:
-  - maprfs:///tmp/airflow-wc-input.txt
+  - maprfs:///exthcp/tenant-11/fsmount/words
   imagePullSecrets:
   - imagepull
   driver:
