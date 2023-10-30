@@ -4,7 +4,7 @@ metadata:
   name: spark-wordcount-secure
   namespace: sampletenant
 spec:
-  #sparkConf:
+  sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
     #       you do not need to specify a spark.mapr.user.secret
     spark.mapr.user.secret: spark-user-secret
@@ -21,7 +21,7 @@ spec:
   restartPolicy:
     type: Never
   arguments:
-  - maprfs:///exthcp/tenant-11/fsmount/words
+  - maprfs:///tmp/input.txt
   imagePullSecrets:
   - imagepull
   driver:
