@@ -70,11 +70,11 @@ submit = SparkKubernetesOperator(
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    enable_impersonation_from_ldap_user=True
+    enable_impersonation_from_ldap_user=False
 )
 
 sensor = SparkKubernetesSensor(
-    task_id='spark_wc_monitor',
+    task_id='spark_wc_auto_monitor',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
     application_name="{{ task_instance.xcom_pull(task_ids='spark_wc_auto_submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
