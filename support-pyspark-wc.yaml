@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-wordcount-secure-test1
+  name: spark-wordcount-secure-test2
   namespace: deepesh
 spec:
   sparkConf:
@@ -13,7 +13,7 @@ spec:
     spark.eventLog.dir: "maprfs:///apps/spark/deepesh"
   type: Java
   sparkVersion: 3.3.1
-  mode: cluster
+  mode: client 
   image: gcr.io/mapr-252711/spark-3.3.1:202301161621R
   imagePullPolicy: Always
   mainClass: org.apache.spark.examples.JavaWordCount
