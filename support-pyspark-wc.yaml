@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  generateName: spark-pi-secure-
+  name: test-pi-spark
   namespace: deepesh
 spec:
   sparkConf:
