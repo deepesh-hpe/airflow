@@ -59,7 +59,7 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'r') as fil
 # [START instantiate_dag]
 
 dag = DAG(
-    'Spark-pi-5.6',
+    'Spark-pi-5.6.1',
     default_args=default_args,
     schedule_interval=None,
     tags=['example', 'spark'],
@@ -71,7 +71,7 @@ dag = DAG(
 submit = SparkKubernetesOperator(
     task_id='spark_pi_submit',
     namespace=current_namespace,
-    application_file="pi-5.6_operator.yaml",
+    application_file="spark-pi-with-ticket.yaml",
     kubernetes_conn_id="kubernetes_in_cluster",
     do_xcom_push=True,
     dag=dag,
