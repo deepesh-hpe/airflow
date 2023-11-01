@@ -16,49 +16,77 @@
 # specific language governing permissions and limitations
 # under the License.
 """
-This is an example dag for using the KubernetesPodOperator.
-"""
-import logging
+This is an example DAG which uses SparkKubernetesOperator and SparkKubernetesSensor.
+In this example, we create two tasks which execute sequentially.
+The first task is to submit sparkApplication on Kubernetes cluster(the example uses spark-pi application).
+and the second task is to check the final state of the sparkApplication that submitted in the first state.
 
+Spark-on-k8s operator is required to be already installed on Kubernetes
+https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
+"""
+
+from os import path
+from datetime import timedelta, datetime
+
+# [START import_module]
+# The DAG object; we'll need this to instantiate a DAG
 from airflow import DAG
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+# Operators; we need this to operate!
+from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
+from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.utils.dates import days_ago
 
-log = logging.getLogger(__name__)
+# [END import_module]
 
-
+# [START default_args]
+# These args will get passed on to each operator
+# You can override them on a per-task basis during operator initialization
 default_args = {
     'owner': 'airflow',
-    'start_date': days_ago(2)
+    'depends_on_past': False,
+    'start_date': days_ago(1),
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'max_active_runs': 1,
+    'retries': 3
 }
+# [END default_args]
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'r') as file:
     current_namespace = file.read()
 
-with DAG(
-    dag_id='example_kubernetes_operator',
+# [START instantiate_dag]
+
+dag = DAG(
+    'Spark-pi-spark-3.3.1',
     default_args=default_args,
     schedule_interval=None,
-    tags=['example', 'kubernetes', 'bash'],
-) as dag:
+    tags=['example', 'spark'],
+    params={
+        'namespace': current_namespace,
+    }
+)
 
-    tolerations = [
-        {
-            'key': "key",
-            'operator': 'Equal',
-            'value': 'value'
-        }
-    ]
+submit = SparkKubernetesOperator(
+    task_id='spark_pi_submit',
+    namespace=current_namespace,
+    application_file="spark-pi-3.3.1.yaml",
+    kubernetes_conn_id="kubernetes_in_cluster",
+    do_xcom_push=True,
+    dag=dag,
+    api_group="sparkoperator.hpe.com",
+    enable_impersonation_from_ldap_user=False
+)
 
-    k = KubernetesPodOperator(
-        namespace=current_namespace,
-        image="ubuntu:16.04",
-        cmds=["bash", "-cx"],
-        arguments=["echo hello here"],
-        labels={"foo": "bar"},
-        name="airflow-test-pod",
-        task_id="task",
-        get_logs=True,
-        is_delete_operator_pod=False,
-        tolerations=tolerations
-    )
+sensor = SparkKubernetesSensor(
+    task_id='spark_pi_monitor',
+    namespace=current_namespace,
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+    kubernetes_conn_id="kubernetes_in_cluster",
+    dag=dag,
+    api_group="sparkoperator.hpe.com",
+    attach_log=True
+)
+
+submit >> sensor
