@@ -17,7 +17,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-pi-secure-3.3.1
+  name: spark-pi-secure-3.3.1-new
   namespace: deepesh
 spec:
   #sparkConf:
