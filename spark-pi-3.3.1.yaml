@@ -47,6 +47,7 @@ spec:
     # Note: You do not need to specify a serviceAccount
     #       it will be auto-generated referencing the pre-existing "hpe-<namespace>"
 #    serviceAccount: hpe-spark-operator
+     serviceAccount: hpe-{{params.namespace}}
   executor:
     cores: 1
     coreLimit: "1000m"
