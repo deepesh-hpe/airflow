@@ -1,8 +1,8 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  #name: spark-pi-secure-1234
-  generateName: spark-pi-secure-1-
+  name: spark-pi-secure-{{ts_nodash|replace("T", "")}}
+  #generateName: spark-pi-secure-1-
 spec:
   sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
