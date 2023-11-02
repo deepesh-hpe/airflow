@@ -69,7 +69,7 @@ dag = DAG(
 )
 
 submit = SparkKubernetesOperator(
-    task_id='spark_pi_submit',
+    task_id='spark_pi_3.3.1-submit',
     namespace=current_namespace,
     application_file="spark-pi-3.3.1.yaml",
     kubernetes_conn_id="kubernetes_in_cluster",
@@ -82,7 +82,7 @@ submit = SparkKubernetesOperator(
 sensor = SparkKubernetesSensor(
     task_id='spark_pi_monitor',
     namespace=current_namespace,
-    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_3.3.1-submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
     dag=dag,
     api_group="sparkoperator.hpe.com",
