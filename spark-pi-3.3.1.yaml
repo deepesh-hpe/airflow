@@ -1,8 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-pi-secure-3.3.1-mapr
-  namespace: deepesh
+  name: spark-pi-secure-123
 spec:
   sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
@@ -30,8 +29,7 @@ spec:
       version: 3.3.1
     # Note: You do not need to specify a serviceAccount
     #       it will be auto-generated referencing the pre-existing "hpe-<namespace>"
-#    serviceAccount: hpe-spark-operator
-     serviceAccount: hpe-{{params.namespace}}
+    serviceAccount: hpe-{{params.namespace}}
   executor:
     cores: 1
     coreLimit: "1000m"
