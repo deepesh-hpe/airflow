@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: test-pi-spark
+  name: test-pi-spark-testing 
   namespace: deepesh
 spec:
   sparkConf:
