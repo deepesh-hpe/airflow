@@ -1,8 +1,8 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: test-wc-spark-test123 
-  namespace: deepesh
+  name: test-wc-spark-test1235
+ #namespace: deepesh
 spec:
   sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
