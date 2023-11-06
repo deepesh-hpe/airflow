@@ -71,6 +71,7 @@ dag = DAG(
 submit = SparkKubernetesOperator(
     task_id='spark_pi_3.3.1-submit',
     namespace=current_namespace,
+    kube_config="config",
     application_file="spark-auto-newconnection.yaml",
     kubernetes_conn_id="kubernetes_auto",
     do_xcom_push=True,
