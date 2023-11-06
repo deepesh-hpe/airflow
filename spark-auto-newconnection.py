@@ -77,6 +77,7 @@ submit = SparkKubernetesOperator(
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
+    config_file="config",
     enable_impersonation_from_ldap_user=False
 )
 
@@ -87,6 +88,7 @@ sensor = SparkKubernetesSensor(
     kubernetes_conn_id="kubernetes_auto",
     dag=dag,
     api_group="sparkoperator.hpe.com",
+    config_file="config",
     attach_log=True
 )
 
