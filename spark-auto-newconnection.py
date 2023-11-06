@@ -79,11 +79,10 @@ submit = SparkKubernetesOperator(
     task_id='spark_pi_3.3.1-submit',
     namespace=current_namespace,
     application_file="spark-auto-newconnection.yaml",
-    kubernetes_conn_id="kubernetes_auto",
+    kubernetes_conn_id="kubernetes_in_auto",
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    config_file="config",  # Add the kubeconfig path here
     enable_impersonation_from_ldap_user=False
 )
 
@@ -91,10 +90,9 @@ sensor = SparkKubernetesSensor(
     task_id='spark_pi_monitor',
     namespace=current_namespace,
     application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_3.3.1-submit')['metadata']['name'] }}",
-    kubernetes_conn_id="kubernetes_auto",
+    kubernetes_conn_id="kubernetes_in_auto",
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    config_file="config",  # Add the kubeconfig path here
     attach_log=True
 )
 
