@@ -29,17 +29,24 @@ from os import path
 from datetime import timedelta, datetime
 
 # [START import_module]
+
 # The DAG object; we'll need this to instantiate a DAG
+
 from airflow import DAG
 # Operators; we need this to operate!
+
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+
 from airflow.utils.dates import days_ago
 
 # [END import_module]
 
+
 # [START default_args]
+
 # These args will get passed on to each operator
+
 # You can override them on a per-task basis during operator initialization
 default_args = {
     'owner': 'airflow',
@@ -71,13 +78,12 @@ dag = DAG(
 submit = SparkKubernetesOperator(
     task_id='spark_pi_3.3.1-submit',
     namespace=current_namespace,
-    kube_config="config",
     application_file="spark-auto-newconnection.yaml",
     kubernetes_conn_id="kubernetes_auto",
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    config_file="config",
+    config_file="config",  # Add the kubeconfig path here
     enable_impersonation_from_ldap_user=False
 )
 
@@ -88,7 +94,7 @@ sensor = SparkKubernetesSensor(
     kubernetes_conn_id="kubernetes_auto",
     dag=dag,
     api_group="sparkoperator.hpe.com",
-    config_file="config",
+    config_file="config",  # Add the kubeconfig path here
     attach_log=True
 )
 
