@@ -85,7 +85,6 @@ sensor = SparkKubernetesSensor(
     namespace=current_namespace,
     application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_3.3.1-submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_auto",
-    kube_config_path="config",
     dag=dag,
     api_group="sparkoperator.hpe.com",
     attach_log=True
