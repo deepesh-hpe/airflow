@@ -24,7 +24,8 @@ and the second task is to check the final state of the sparkApplication that sub
 Spark-on-k8s operator is required to be already installed on Kubernetes
 https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
 """
-
+#DEBUG 
+import logging
 from os import path
 from datetime import timedelta, datetime
 
@@ -59,6 +60,10 @@ default_args = {
     'retries': 3
 }
 # [END default_args]
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('spark-pi-autowithkube-3.3.1')
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'r') as file:
     current_namespace = file.read()
