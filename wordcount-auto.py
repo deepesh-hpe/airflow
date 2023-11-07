@@ -66,7 +66,7 @@ submit = SparkKubernetesOperator(
     task_id='spark_wc_auto_submit',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
     application_file="wordcount-auto.yaml",
-    kubernetes_conn_id="kubernetes_auto",
+    kubernetes_conn_id="kubernetes_in_auto",
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
@@ -77,7 +77,7 @@ sensor = SparkKubernetesSensor(
     task_id='spark_wc_auto_monitor',
     namespace='{{dag_run.conf.get("namespace", "sampletenant")}}',
     application_name="{{ task_instance.xcom_pull(task_ids='spark_wc_auto_submit')['metadata']['name'] }}",
-    kubernetes_conn_id="kubernetes_auto",
+    kubernetes_conn_id="kubernetes_in_auto",
     dag=dag,
     api_group="sparkoperator.hpe.com",
     attach_log=True
