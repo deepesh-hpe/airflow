@@ -1,32 +1,26 @@
 import logging
+import logging.handlers
 from os import path
 from datetime import timedelta, datetime
 
 # [START import_module]
 
-
 # The DAG object; we'll need this to instantiate a DAG
-
 
 from airflow import DAG
 # Operators; we need this to operate!
 
-
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-
 
 from airflow.utils.dates import days_ago
 
 # [END import_module]
 
 
-
 # [START default_args]
 
-
 # These args will get passed on to each operator
-
 
 # You can override them on a per-task basis during operator initialization
 default_args = {
@@ -41,9 +35,23 @@ default_args = {
 }
 # [END default_args]
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger('spark-pi-autowithkube-3.3.1')
+# Configure root logger to capture only DEBUG logs
+root_logger = logging.getLogger()
+root_logger.setLevel(logging.DEBUG)
+
+# Create a separate handler for INFO and higher logs
+info_handler = logging.StreamHandler()
+info_handler.setLevel(logging.INFO)
+
+# Create a filter to filter out logs below the DEBUG level
+info_filter = logging.Filter()
+info_filter.filter = lambda record: record.levelno >= logging.INFO
+
+# Add the filter to the INFO handler
+info_handler.addFilter(info_filter)
+
+# Add the INFO handler to the root logger
+root_logger.addHandler(info_handler)
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'r') as file:
     current_namespace = file.read()
