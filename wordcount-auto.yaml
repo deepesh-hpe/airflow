@@ -1,7 +1,8 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  generateName: spark-wc-auto-
+  #generateName: spark-wc-auto-
+  name: spark-pi-secure-{{ts_nodash|replace("T", "")}}
   namespace: deepesh
 spec:
   sparkConf:
