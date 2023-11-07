@@ -59,7 +59,7 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'r') as fil
 # [START instantiate_dag]
 
 dag = DAG(
-    'Spark-pi-autowithkube-3.3.1',
+    'Spark-pi-autowithtenatkube-3.3.1',
     default_args=default_args,
     schedule_interval=None,
     tags=['example', 'spark'],
@@ -75,8 +75,8 @@ def submit_task():
 submit = SparkKubernetesOperator(
     task_id='spark_pi_3.3.1-submit',
     namespace=current_namespace,
-    application_file="spark-auto-newconnection.yaml",
-    kubernetes_conn_id="kubernetes_auto",
+    application_file="spark-auto-tenant.yaml",
+    kubernetes_conn_id="kubernetes_in_auto",
     do_xcom_push=True,
     dag=dag,
     api_group="sparkoperator.hpe.com",
@@ -91,7 +91,7 @@ sensor = SparkKubernetesSensor(
     task_id='spark_pi_monitor',
     namespace=current_namespace,
     application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_3.3.1-submit')['metadata']['name'] }}",
-    kubernetes_conn_id="kubernetes_auto",
+    kubernetes_conn_id="kubernetes_in_auto",
     dag=dag,
     api_group="sparkoperator.hpe.com",
     attach_log=True
