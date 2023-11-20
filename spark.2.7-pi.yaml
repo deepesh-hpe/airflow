@@ -1,8 +1,8 @@
 apiVersion: "sparkoperator.hpe.com/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-2.7.pi
-  namespace: deepesh
+  name: spark-pi-secure
+  namespace: sampletenant
 spec:
   sparkConf:
     # Note: If you are executing the application as a K8 user that MapR can verify,
@@ -14,12 +14,12 @@ spec:
   type: Scala
   sparkVersion: 2.4.7
   mode: cluster
-  image: gcr.io/mapr-252711/spark-2.4.7:202103081541C
+  image: gcr.io/mapr-252711/spark-2.4.7:202206300317R
   imagePullPolicy: Always
   imagePullSecrets:
   - imagepull
   mainClass: org.apache.spark.examples.SparkPi
-  mainApplicationFile: "local:///opt/mapr/spark/spark-2.4.7/examples/jars/spark-examples_2.12-2.4.7.2-mapr-701.jar"
+  mainApplicationFile: "local:///opt/mapr/spark/spark-2.4.7/examples/jars/spark-examples_2.12-2.4.7.203-mapr-712.jar"
   restartPolicy:
     type: Never
   driver:
@@ -30,7 +30,7 @@ spec:
       version: 2.4.7
     # Note: You do not need to specify a serviceAccount
     #       it will be auto-generated referencing the pre-existing "hpe-<namespace>"
-    serviceAccount: hpe-sampletenant
+    #serviceAccount: hpe-sampletenant
   executor:
     cores: 1
     coreLimit: "1000m"
